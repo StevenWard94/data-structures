@@ -1,15 +1,14 @@
-/**
- * File:        include/Node.hpp
- * Author:      Steven Ward <stevenward94@gmail.com>
- * Last Change: 2017 Oct 13
- */
+/***********************************************************************************//**
+ * Author:       Steven Ward <stevenward94@gmail.com>
+ * File:         data-structures/include/Node.hpp
+ * URl:          https://github.com/StevenWard94/data-structures
+ * Last Change:  2018 Sep 11
+ ***********************************************************************************/
 
 #ifndef DATA_STRUCTURES_INCLUDE_NODE_HPP_
 #define DATA_STRUCTURES_INCLUDE_NODE_HPP_
 
-#include "utilities.hpp"
-
-#include <iostream>
+#include <utility>
 
 template<typename E>
 class Node {
@@ -17,25 +16,25 @@ class Node {
  public:
   using value_t = E;
 
-  inline Node( ) = default;
-  inline Node(value_t const& data) : data_{data} { }
-  inline Node(value_t&& data) : data_{std::move(data)} { }
+  Node( ) = default;
+  Node(E&& data) : data_{std::move(data)} { }
+  Node(E const& data) : data_{data} { }
+  Node(E&& data, Node<E>* next_node) : data_{std::move(data)}, next_{next_node} { }
+  Node(E const& data, Node<E>* next_node) : data_{data}, next_{next_node} { }
+  ~Node( ) { delete next_; }
 
-  inline Node(value_t const& data, Node* const next_node)
-          : data_{data}, next_{next_node} { }
+  void setData(E const& data) : data_{data} { }
+  E const& get( ) const { return data_; }
+  E get( ) const { return data_; }
 
-  inline Node(value_t&& data, Node* const next_node)
-          : data_{std::move(data)}, next_{next_node} { }
-
-  inline Node(Node const& other) : data_{other.data_}, next_{other.next} { }
-
-  inline Node(Node&& other)
-          : data_{std::move(other.data_)}, next_{std::move(other.next_)} { }
+  void setNext(const Node<E>* next_node) : next_{next_node} { }
+  const Node<E>* next( ) const { return next_; }
+  Node<E>* next( ) const { return next_; }
 
 
  private:
-  value_t data_ { };
-  Node<value_t>* next_ { };
+  E data_ { };
+  Node<E>* next_ { };
 
 };
 
